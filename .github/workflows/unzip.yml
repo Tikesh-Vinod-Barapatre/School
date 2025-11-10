@@ -1,0 +1,20 @@
+name: Unzip on Push
+on:
+  push:
+    paths:
+      - '*.zip'
+
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unzip file
+        run: unzip yourfile.zip -d extracted
+      - name: Commit extracted files
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Unzipped files" || echo "No changes"
+          git push
